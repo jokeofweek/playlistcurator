@@ -38,7 +38,7 @@ func (p BansheeProvider) ProvideTracks() ([]api.Track, error) {
 		var path string
 		rows.Scan(&artist, &name, &path)
 		path = strings.TrimPrefix(path, "file://")
-		tracks = append(tracks, api.Track{artist, name, path})
+		tracks = append(tracks, api.NewTrack(artist, name, path))
 	}
 
 	return tracks, nil

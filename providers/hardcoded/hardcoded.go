@@ -8,7 +8,7 @@ type HardcodedProvider struct {}
 
 func (p HardcodedProvider) ProvideTracks() ([]api.Track, error) {
 	return []api.Track{
-		api.Track{"Hooded Fang", "Wasteland", ""},
-		api.Track{"Daft Punk", "One More Time", ""},
+		api.NewTrack("Hooded Fang", "Wasteland", ""),
+		api.NewTrack("Daft Punk", "One More Time", ""),
 	}, nil
 }
