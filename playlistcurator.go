@@ -3,7 +3,6 @@ package playlistcurator
 import (
 	"gopkg.in/fatih/set.v0"
 	"github.com/jokeofweek/playlistcurator/api"
-	"github.com/jokeofweek/playlistcurator/providers/hardcoded"
 	"io/ioutil"
 	"net/http"
 	"strings"
@@ -90,21 +89,21 @@ func filterTracksByArtist(tracks []api.Track, artists *set.Set) []api.Track {
 	return filtered
 }
 
-func CreatePlaylist(provider api.LibraryProvider, creator api.PlaylistCreator, seedArtist string, similarityDepth int) error {
+func CreatePlaylist(provider api.LibraryProvider, creator api.PlaylistCreator, seedArtist string, similarityDepth int) (string, error) {
 	tracks, err  := provider.ProvideTracks()
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	artists := getArtists(tracks)
 	
 	similarArtists, err := getSimilarArtists(seedArtist, artists, similarityDepth)
 	if err != nil {
-		return err
+		return "", err
 	}
 
 	filtered := filterTracksByArtist(tracks, similarArtists)
 
-	return creator.CreatePlaylist(filtered)
+	return creator.CreatePlaylist(filtered), nil
 
 }

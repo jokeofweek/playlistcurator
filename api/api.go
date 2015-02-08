@@ -17,5 +17,5 @@ type LibraryProvider interface {
 }
 
 type PlaylistCreator interface{
-	CreatePlaylist([]Track) error
+	CreatePlaylist([]Track) string
 }

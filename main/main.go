@@ -18,13 +18,12 @@ func main() {
     }
 
 	provider := banshee.NewBansheeProvider(path.Join(usr.HomeDir, ".config/banshee-1/banshee.db"))
-	creator := m3u.NewM3UPlaylistCreator(path.Join(usr.HomeDir, "test.m3u"))
 
-	err = playlistcurator.CreatePlaylist(provider, creator, "flying lotus", 3)
+	result, err := playlistcurator.CreatePlaylist(provider, m3u.M3UPlaylistCreator{}, "flying lotus", 3)
 
 	if err != nil {
 		log.Fatal (err)
+	} else {
+		fmt.Println(result)
 	}
-
-	fmt.Println("Created!")	
 }
