@@ -10,7 +10,7 @@ The playlist curator supports:
 The main package is used as follows:
 
 ```
-main "seed artist"
+./main "seed artist"
 ```
 
 A playlist will be created based on the artists similar to the seed artist and output to STDOUT.
