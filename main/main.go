@@ -5,5 +5,5 @@ import (
 )
 
 func main() {
-	PrintTrack()
+	playlistcurator.PrintTrack()
 }

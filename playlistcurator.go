@@ -1,4 +1,4 @@
-package playlistcreator
+package playlistcurator
 
 import (
 	"fmt"
