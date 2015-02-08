@@ -3,17 +3,11 @@ package playlistcurator
 import (
 	"gopkg.in/fatih/set.v0"
 	"github.com/jokeofweek/playlistcurator/api"
-	"github.com/jokeofweek/playlistcurator/printer"
 	"github.com/jokeofweek/playlistcurator/providers/hardcoded"
 	"io/ioutil"
 	"net/http"
 	"strings"
 )
-
-func PrintTrack() {
-	t := hardcoded.HardcodedProvider{}
-	printer.PrintTrack(t)
-}
 
 func getArtists(tracks []api.Track) *set.Set {
 	result := set.New()
