@@ -15,7 +15,7 @@ func PrintTrack() {
 	printer.PrintTrack(t)
 }
 
-func GetArtists(tracks []api.Track) *set.Set {
+func getArtists(tracks []api.Track) *set.Set {
 	result := set.New()
 	for _, track := range tracks {
 		result.Add(track.Artist)
@@ -47,7 +47,7 @@ func getSimilarTo(artist string) ([]string, error) {
 	return artists[0:10], nil
 }
 
-func GetSimilarArtists(seedArtist string, availableArtists *set.Set, depth int) (*set.Set, error) {
+func getSimilarArtists(seedArtist string, availableArtists *set.Set, depth int) (*set.Set, error) {
 	result := set.New()
 
 	currentSet := set.New()
@@ -84,4 +84,33 @@ func GetSimilarArtists(seedArtist string, availableArtists *set.Set, depth int) 
 	}
 
 	return result, nil
+}
+
+func filterTracksByArtist(tracks []api.Track, artists *set.Set) []api.Track {
+	var filtered []api.Track
+	for _, item := range tracks {
+		if artists.Has(item.Artist) {
+			filtered = append(filtered, item)
+		}
+	}
+	return filtered
+}
+
+func CreatePlaylist(provider api.LibraryProvider, creator api.PlaylistCreator, seedArtist string, similarityDepth int) error {
+	tracks, err  := provider.ProvideTracks()
+	if err != nil {
+		return err
+	}
+
+	artists := getArtists(tracks)
+	
+	similarArtists, err := getSimilarArtists(seedArtist, artists, similarityDepth)
+	if err != nil {
+		return err
+	}
+
+	filtered := filterTracksByArtist(tracks, similarArtists)
+
+	return creator.CreatePlaylist(filtered)
+
 }
