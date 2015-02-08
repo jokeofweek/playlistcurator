@@ -1,8 +1,8 @@
 package playlistcurator
 
 import (
-	"gopkg.in/fatih/set.v0"
 	"github.com/jokeofweek/playlistcurator/api"
+	"gopkg.in/fatih/set.v0"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -36,7 +36,7 @@ func getSimilarTo(artist string) ([]string, error) {
 		artists[index] = strings.ToLower(item)
 	}
 
-	// The API returns 10 elements, but in reality we have an extra in the slice due to 
+	// The API returns 10 elements, but in reality we have an extra in the slice due to
 	// a trailing new line, so we have to remove this.
 	end := len(artists) - 1
 	if end < 0 {
@@ -67,7 +67,7 @@ func getSimilarArtists(seedArtist string, availableArtists *set.Set, depth int) 
 				if availableArtists.Has(item) {
 					result.Add(item)
 				}
-				// Fetch the similar artists 
+				// Fetch the similar artists
 				similarArtists, err := getSimilarTo(item)
 				if err != nil {
 					return nil, err
@@ -106,13 +106,13 @@ func filterTracksByArtist(tracks []api.Track, artists *set.Set) []api.Track {
 func CreatePlaylist(provider api.LibraryProvider, creator api.PlaylistCreator, seedArtist string, similarityDepth int) (string, error) {
 	seedArtist = strings.ToLower(seedArtist)
 
-	tracks, err  := provider.ProvideTracks()
+	tracks, err := provider.ProvideTracks()
 	if err != nil {
 		return "", err
 	}
 
 	artists := getArtists(tracks)
-	
+
 	similarArtists, err := getSimilarArtists(seedArtist, artists, similarityDepth)
 	if err != nil {
 		return "", err

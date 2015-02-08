@@ -4,7 +4,7 @@ import (
 	"github.com/jokeofweek/playlistcurator/api"
 )
 
-type HardcodedProvider struct {}
+type HardcodedProvider struct{}
 
 func (p HardcodedProvider) ProvideTracks() ([]api.Track, error) {
 	return []api.Track{

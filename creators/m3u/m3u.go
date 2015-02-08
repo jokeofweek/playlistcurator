@@ -4,8 +4,7 @@ import (
 	"github.com/jokeofweek/playlistcurator/api"
 )
 
-type M3UPlaylistCreator struct {}
-
+type M3UPlaylistCreator struct{}
 
 func (c M3UPlaylistCreator) CreatePlaylist(tracks []api.Track) string {
 	result := ""

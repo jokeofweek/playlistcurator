@@ -16,7 +16,7 @@ func (p BansheeProvider) ProvideTracks() ([]api.Track, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer db.Close()	
+	defer db.Close()
 
 	sqlStmt := `
 	SELECT a.Name, Title, URI FROM CoreTracks t 

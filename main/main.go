@@ -2,9 +2,9 @@ package main
 
 import (
 	"fmt"
-    "log"
-    "os"
-    "os/user"
+	"log"
+	"os"
+	"os/user"
 	"path"
 
 	"github.com/jokeofweek/playlistcurator"
@@ -20,17 +20,17 @@ func main() {
 		return
 	}
 
-    usr, err := user.Current()
-    if err != nil {
-        log.Fatal( err )
-    }
+	usr, err := user.Current()
+	if err != nil {
+		log.Fatal(err)
+	}
 
 	provider := banshee.NewBansheeProvider(path.Join(usr.HomeDir, ".config/banshee-1/banshee.db"))
 
 	result, err := playlistcurator.CreatePlaylist(provider, m3u.M3UPlaylistCreator{}, args[0], 3)
 
 	if err != nil {
-		log.Fatal (err)
+		log.Fatal(err)
 	} else {
 		fmt.Println(result)
 	}
