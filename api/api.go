@@ -7,5 +7,5 @@ type Track struct {
 }
 
 type LibraryProvider interface {
-	ProvideTracks() []Track
+	ProvideTracks() ([]Track, error)
 }

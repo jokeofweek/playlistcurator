@@ -2,7 +2,7 @@ package playlistcurator
 
 import (
 	"github.com/jokeofweek/playlistcurator/printer"
-	"github.com/jokeofweek/playlistcurator/providers"
+	"github.com/jokeofweek/playlistcurator/providers/hardcoded"
 )
 
 func PrintTrack() {
