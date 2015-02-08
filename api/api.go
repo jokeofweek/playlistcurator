@@ -3,7 +3,7 @@ package api
 import "strings"
 
 type Track struct {
-	Artist string
+	Artist string // Must be in lowercase.
 	Name string
 	Path string
 }
@@ -14,4 +14,8 @@ func NewTrack(artist, name, path string) Track {
 
 type LibraryProvider interface {
 	ProvideTracks() ([]Track, error)
+}
+
+type PlaylistCreator interface{
+	CreatePlaylist([]Track) error
 }
