@@ -90,6 +90,8 @@ func filterTracksByArtist(tracks []api.Track, artists *set.Set) []api.Track {
 }
 
 func CreatePlaylist(provider api.LibraryProvider, creator api.PlaylistCreator, seedArtist string, similarityDepth int) (string, error) {
+	seedArtist = strings.ToLower(seedArtist)
+	
 	tracks, err  := provider.ProvideTracks()
 	if err != nil {
 		return "", err
