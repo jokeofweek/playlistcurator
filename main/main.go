@@ -27,7 +27,7 @@ func main() {
 
 	provider := banshee.NewBansheeProvider(path.Join(usr.HomeDir, ".config/banshee-1/banshee.db"))
 
-	result, err := playlistcurator.CreatePlaylist(provider, m3u.M3UPlaylistCreator{}, args[0], 3)
+	result, err := playlistcurator.CreatePlaylist(provider, m3u.M3UPlaylistCreator{}, args[0], 2)
 
 	if err != nil {
 		log.Fatal (err)

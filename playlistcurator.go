@@ -43,6 +43,8 @@ func getSimilarTo(artist string) ([]string, error) {
 func getSimilarArtists(seedArtist string, availableArtists *set.Set, depth int) (*set.Set, error) {
 	result := set.New()
 
+	processed := set.New()
+
 	currentSet := set.New()
 	currentSet.Add(seedArtist)
 	var awaitingSet (*set.Set)
@@ -54,9 +56,12 @@ func getSimilarArtists(seedArtist string, availableArtists *set.Set, depth int) 
 		// already been used in the result
 		current := set.StringSlice(currentSet)
 		for _, item := range current {
-			if !result.Has(item) {
-				result.Add(item)
+			if !processed.Has(item) {
+				processed.Add(item)
 
+				if availableArtists.Has(item) {
+					result.Add(item)
+				}
 				// Fetch the similar artists 
 				similarArtists, err := getSimilarTo(item)
 				if err != nil {
@@ -65,8 +70,12 @@ func getSimilarArtists(seedArtist string, availableArtists *set.Set, depth int) 
 
 				// Go through the similar artists, adding the ones which are in the set of available.
 				for _, similarArtist := range similarArtists {
-					if availableArtists.Has(similarArtist) {
+					if !processed.Has(similarArtist) {
 						awaitingSet.Add(similarArtist)
+					}
+
+					if availableArtists.Has(item) {
+						result.Add(similarArtist)
 					}
 				}
 			}
@@ -91,7 +100,7 @@ func filterTracksByArtist(tracks []api.Track, artists *set.Set) []api.Track {
 
 func CreatePlaylist(provider api.LibraryProvider, creator api.PlaylistCreator, seedArtist string, similarityDepth int) (string, error) {
 	seedArtist = strings.ToLower(seedArtist)
-	
+
 	tracks, err  := provider.ProvideTracks()
 	if err != nil {
 		return "", err
