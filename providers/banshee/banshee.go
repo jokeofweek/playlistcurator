@@ -2,7 +2,6 @@ package banshee
 
 import (
 	"database/sql"
-	"strings"
 	"github.com/jokeofweek/playlistcurator/api"
 	_ "github.com/mattn/go-sqlite3"
 )
@@ -37,7 +36,6 @@ func (p BansheeProvider) ProvideTracks() ([]api.Track, error) {
 		var name string
 		var path string
 		rows.Scan(&artist, &name, &path)
-		path = strings.TrimPrefix(path, "file://")
 		tracks = append(tracks, api.NewTrack(artist, name, path))
 	}
 
