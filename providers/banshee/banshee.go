@@ -32,14 +32,21 @@ func (p BansheeProvider) ProvideTracks() ([]api.Track, error) {
 	// Iterate though the query set, building up the tracks
 	var tracks []api.Track
 	for rows.Next() {
-		var artist string
-		var name string
-		var path string
-		rows.Scan(&artist, &name, &path)
-		tracks = append(tracks, api.NewTrack(artist, name, path))
+		var artist sql.NullString
+		var name sql.NullString
+		var path sql.NullString
+		
+		err = rows.Scan(&artist, &name, &path)
+		if err != nil {
+			return nil, err 
+		}
+
+		if artist.Valid && name.Valid && path.Valid {
+			tracks = append(tracks, api.NewTrack(artist.String, name.String, path.String))
+		}
 	}
 
-	return tracks, nil
+	return tracks, rows.Err()
 }
 
 func NewBansheeProvider(path string) BansheeProvider {
