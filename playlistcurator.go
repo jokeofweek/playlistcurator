@@ -5,6 +5,7 @@ import (
 	"github.com/jokeofweek/playlistcurator/api"
 	"io/ioutil"
 	"net/http"
+	"net/url"
 	"strings"
 )
 
@@ -17,7 +18,7 @@ func getArtists(tracks []api.Track) *set.Set {
 }
 
 func getSimilarTo(artist string) ([]string, error) {
-	resp, err := http.Get("http://www.gnoosic.com/api/top?name=" + strings.Replace(artist, " ", "+", -1))
+	resp, err := http.Get("http://www.gnoosic.com/api/top?name=" + url.QueryEscape(artist))
 	if err != nil {
 		return nil, err
 	}
@@ -37,7 +38,11 @@ func getSimilarTo(artist string) ([]string, error) {
 
 	// The API returns 10 elements, but in reality we have an extra in the slice due to 
 	// a trailing new line, so we have to remove this.
-	return artists[0:10], nil
+	end := len(artists) - 1
+	if end < 0 {
+		end = 0
+	}
+	return artists[0:end], nil
 }
 
 func getSimilarArtists(seedArtist string, availableArtists *set.Set, depth int) (*set.Set, error) {
